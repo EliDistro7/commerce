@@ -1,22 +1,64 @@
-// *********************
-// Role of the component: Section title that can be used on any page
-// Name of the component: SectionTitle.tsx
-// Developer: Aleksandar Kuzmanovic
-// Version: 1.0
-// Component call: <SectionTitle />
-// Input parameters: {title: string; path: string}
-// Output: div containing h1 for page title and p for page location path 
-// *********************
+"use client";
 
-import React from 'react'
+import React from 'react';
+import { useLanguage } from "@/context/LanguageContext";
+import { motion } from 'framer-motion';
 
-const SectionTitle = ({title, path} : {title: string; path: string}) => {
-  return (
-    <div className='h-[250px] border-b pt-16 border-white bg-blue-500 mb-2 max-sm:h-[200px] max-sm:pt-16'>
-        <h1 className='section-title-title text-7xl text-center mb-7 max-md:text-7xl max-sm:text-5xl text-white max-sm:mb-2'>{ title }</h1>
-        <p className='section-title-path text-xl text-center max-sm:text-xl text-white'>{ path }</p>
-    </div>
-  )
+interface SectionTitleProps {
+  title: string;
+  path: string;
+  titleSw?: string;  // Optional Swahili title
+  pathSw?: string;   // Optional Swahili path
 }
 
-export default SectionTitle
+const SectionTitle = ({ title, path, titleSw, pathSw }: SectionTitleProps) => {
+  const { language } = useLanguage();
+  
+  // If Swahili translations are provided, use them; otherwise, fall back to the provided title/path
+  const displayTitle = language === 'sw' && titleSw ? titleSw : title;
+  const displayPath = language === 'sw' && pathSw ? pathSw : path;
+  
+  return (
+    <div className='relative h-[250px] border-b border-accent-mint bg-primary-500 mb-8 overflow-hidden max-sm:h-[200px]'>
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-12 left-0 w-24 h-24 rounded-full bg-primary-400/20 -translate-x-1/2"></div>
+        <div className="absolute bottom-0 right-12 w-48 h-48 rounded-full bg-primary-600/30"></div>
+        <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-secondary-500/20"></div>
+      </div>
+      
+      {/* Content container */}
+      <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center relative z-10">
+        <motion.h1 
+          className='font-display text-6xl text-center mb-4 text-white max-md:text-5xl max-sm:text-4xl'
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          {displayTitle}
+        </motion.h1>
+        
+        <motion.div
+          className="h-1 bg-accent-mint w-16 rounded-full mx-auto mb-4"
+          initial={{ width: 0 }}
+          animate={{ width: 64 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        />
+        
+        <motion.p 
+          className='font-sans text-lg text-center text-accent-ivory max-sm:text-base'
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          {displayPath}
+        </motion.p>
+      </div>
+      
+      {/* Bottom decorative gradient */}
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-primary-600 to-transparent"></div>
+    </div>
+  );
+};
+
+export default SectionTitle;

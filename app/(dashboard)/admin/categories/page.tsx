@@ -10,7 +10,7 @@ const DashboardCategory = () => {
 
   // getting all categories to be displayed on the all categories page
   useEffect(() => {
-    fetch("http://localhost:3001/api/categories")
+    fetch(`${process.env.NEXT_PUBLIC_CLIENT}/api/categories`)
       .then((res) => {
         return res.json();
       })
@@ -38,7 +38,7 @@ const DashboardCategory = () => {
             />
           </Link>
         </div>
-        <div className="xl:ml-5 w-full max-xl:mt-5 overflow-auto w-full h-[80vh]">
+        <div className="xl:ml-5 max-xl:mt-5 overflow-auto w-full h-[80vh]">
           <table className="table table-md table-pin-cols">
             {/* head */}
             <thead>

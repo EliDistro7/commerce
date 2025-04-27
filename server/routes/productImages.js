@@ -1,22 +1,17 @@
-const express = require('express')
-const router = express.Router()
+// productImagesRouter.js
+const express = require('express');
+const router = express.Router();
 const {
   getSingleProductImages,
   createImage,
   updateImage,
   deleteImage
-} = require('../controllers/productImages')
+} = require('../controllers/productImages');
+const { validateUpload } = require('../middleware/validation');
 
-
-router.route('/:id').get(getSingleProductImages); 
-
-
-router.route('/').post(createImage);
-
-
-router.route('/:id').put(updateImage);
-
-
+router.route('/:id').get(getSingleProductImages);
+router.route('/').post(validateUpload, createImage);
+router.route('/:id').put(validateUpload, updateImage);
 router.route('/:id').delete(deleteImage);
 
-module.exports = router
+module.exports = router;

@@ -1,64 +1,76 @@
 export const categoryMenuList = [
   {
     id: 1,
-    title: "Smart Phones",
-    src: "/smart phone icon.png",
-    href: "/shop/smart-phones"
+    title: "Ugali & Wali",
+    src: "/ugali-samaki.webp",
+    href: "/shop/ugali-wali"
   },
   {
     id: 2,
-    title: "Tablets",
-    src: "/tablet icon.png",
-    href: "/shop/tablets"
+    title: "Nyama Choma",
+    src: "/nyama-choma.webp",
+    href: "/shop/nyama-choma"
   },
   {
     id: 3,
-    title: "Mouses",
-    src: "/mouse icon.png",
-    href: "/shop/mouses"
+    title: "Mishkaki",
+    src: "/mishkaki.webp",
+    href: "/shop/mishkaki"
   },
   {
     id: 4,
-    title: "Cameras",
-    src: "/camera icon.png",
-    href: "/shop/cameras"
+    title: "Samaki wa Kupaka",
+    src: "/fish-icon.png",
+    href: "/shop/samaki"
   },
   {
     id: 5,
-    title: "Smart Watches",
-    src: "/smart watch.png",
-    href: "/shop/watches"
+    title: "Chipsi Mayai",
+    src: "/chipsi-mayai.webp",
+    href: "/shop/chipsi-mayai"
   },
   {
     id: 6,
-    title: "Laptops",
-    src: "/laptop icon.png",
-    href: "/shop/laptops"
+    title: "Pilau & Biryani",
+    src: "/pilau-icon.png",
+    href: "/shop/pilau-biryani"
   },
   {
     id: 7,
-    title: "PCs",
-    src: "/pc icon.png",
-    href: "/shop/computers"
+    title: "Supu & Mchuzi",
+    src: "/soup-icon.png",
+    href: "/shop/soups-stews"
   },
   {
     id: 8,
-    title: "Printers",
-    src: "/printers icon.png",
-    href: "/shop/printers"
+    title: "Viazi Karai",
+    src: "/viazi-icon.png",
+    href: "/shop/viazi-karai"
   },
   {
     id: 9,
-    title: "Earbuds",
-    src: "/ear buds icon.png",
-    href: "/shop/earbuds"
+    title: "Mandazi & Kaimati",
+    src: "/mandazi-icon.png",
+    href: "/shop/swahili-snacks"
   },
   {
     id: 10,
-    title: "Head Phones",
-    src: "/headphone icon.png",
-    href: "/shop/headphones"
+    title: "Uji na Vitumbua",
+    src: "/uji-icon.png",
+    href: "/shop/breakfast"
   },
+  {
+    id: 11,
+    title: "Mboga za Kienyeji",
+    src: "/vegetables-icon.png",
+    href: "/shop/local-vegetables"
+  },
+  {
+    id: 12,
+    title: "Vinywaji",
+    src: "/drinks-icon.png",
+    href: "/shop/beverages"
+  }
 ];
 
 export const incentives = [

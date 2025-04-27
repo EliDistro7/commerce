@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 import prisma from "@/utils/db";
 import { nanoid } from "nanoid";
 
-export const authOptions: any = {
+export const authOptions = {
   // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
@@ -17,7 +17,7 @@ export const authOptions: any = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: any) {
+      async authorize(credentials) {
 
         try {
           const user = await prisma.user.findFirst({
@@ -28,13 +28,13 @@ export const authOptions: any = {
           if (user) {
             const isPasswordCorrect = await bcrypt.compare(
               credentials.password,
-              user.password!
+              user.password
             );
             if (isPasswordCorrect) {
               return user;
             }
           }
-        } catch (err: any) {
+        } catch (err) {
           throw new Error(err);
         }
       },
@@ -50,7 +50,7 @@ export const authOptions: any = {
     // ...add more providers here if you want. You can find them on nextauth website.
   ],
   callbacks: {
-    async signIn({ user, account }: { user: AuthUser; account: Account }) {
+    async signIn({ user, account }) {
       if (account?.provider == "credentials") {
         return true;
       }

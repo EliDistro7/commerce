@@ -19,7 +19,7 @@ const DashboardNewCategoryPage = () => {
         }),
       };
       // sending API request for creating new cateogry
-      fetch(`http://localhost:3001/api/categories`, requestOptions)
+      fetch(`http://localhost:3000/api/categories`, requestOptions)
         .then((response) => {
           if (response.status === 201) {
             return response.json();

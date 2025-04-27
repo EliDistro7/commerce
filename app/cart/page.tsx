@@ -12,44 +12,105 @@ import { FaCheck, FaClock, FaCircleQuestion, FaXmark } from "react-icons/fa6";
 import { useProductStore } from "../_zustand/store";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { useLanguage } from "@/context/LanguageContext";
 
 const CartPage = () => {
-  const { products, removeFromCart, calculateTotals, total } =
-    useProductStore();
+  const { products, removeFromCart, calculateTotals, total } = useProductStore();
+  const { language } = useLanguage();
+
+  // Bilingual content
+  const translations = {
+    pageTitle: {
+      en: "Cart Page",
+      sw: "Kikapu",
+    },
+    shoppingCart: {
+      en: "Shopping Cart",
+      sw: "Kikapu cha Ununuzi",
+    },
+    inStock: {
+      en: "In stock",
+      sw: "Ipo stoo",
+    },
+    shipsIn: {
+      en: "Ships in 3 days",
+      sw: "Inatumwa kwa siku 3",
+    },
+    orderSummary: {
+      en: "Order summary",
+      sw: "Muhtasari wa Oda",
+    },
+    subtotal: {
+      en: "Subtotal",
+      sw: "Jumla Ndogo",
+    },
+    shippingEstimate: {
+      en: "Shipping estimate",
+      sw: "Makadirio ya Usafirishaji",
+    },
+    taxEstimate: {
+      en: "Tax estimate",
+      sw: "Makadirio ya Kodi",
+    },
+    orderTotal: {
+      en: "Order total",
+      sw: "Jumla ya Oda",
+    },
+    checkout: {
+      en: "CHECKOUT",
+      sw: "LIPA",
+    },
+    learnMoreShipping: {
+      en: "Learn more about how shipping is calculated",
+      sw: "Jifunze zaidi jinsi usafirishaji unavyokokotolewa",
+    },
+    learnMoreTax: {
+      en: "Learn more about how tax is calculated",
+      sw: "Jifunze zaidi jinsi kodi inavyokokotolewa",
+    },
+    removeItem: {
+      en: "Remove",
+      sw: "Ondoa",
+    },
+    productRemoved: {
+      en: "Product removed from the cart",
+      sw: "Bidhaa imeondolewa kwenye kikapu",
+    }
+  };
 
   const handleRemoveItem = (id: string) => {
     removeFromCart(id);
     calculateTotals();
-    toast.success("Product removed from the cart");
+    toast.success(translations.productRemoved[language]);
   };
 
   return (
-    <div className="bg-white">
-      <SectionTitle title="Cart Page" path="Home | Cart" />
-      <div className="bg-white">
+    <div className="bg-accent-ivory">
+      <SectionTitle title={translations.pageTitle[language]} path="Home | Cart" />
+      <div className="bg-accent-ivory">
         <div className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Shopping Cart
+          <h1 className="text-3xl font-heading tracking-tight text-primary-700 sm:text-4xl">
+            {translations.shoppingCart[language]}
           </h1>
           <form className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
             <section aria-labelledby="cart-heading" className="lg:col-span-7">
               <h2 id="cart-heading" className="sr-only">
-                Items in your shopping cart
+                {translations.shoppingCart[language]}
               </h2>
 
               <ul
                 role="list"
-                className="divide-y divide-gray-200 border-b border-t border-gray-200"
+                className="divide-y divide-neutral-200 border-b border-t border-neutral-200 bg-white shadow-soft rounded-lg overflow-hidden"
               >
                 {products.map((product) => (
-                  <li key={product.id} className="flex py-6 sm:py-10">
+                  <li key={product.id} className="flex py-6 sm:py-10 px-4">
                     <div className="flex-shrink-0">
                       <Image
                         width={192}
                         height={192}
                         src={product?.image ? `/${product.image}` : "/product_placeholder.jpg"}
-                        alt="laptop image"
-                        className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
+                        alt="product image"
+                        className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48 shadow-soft"
                       />
                     </div>
 
@@ -60,19 +121,13 @@ const CartPage = () => {
                             <h3 className="text-sm">
                               <Link
                                 href={`#`}
-                                className="font-medium text-gray-700 hover:text-gray-800"
+                                className="font-medium text-primary-600 hover:text-primary-700 transition-colors"
                               >
                                 {product.title}
                               </Link>
                             </h3>
                           </div>
-                          {/* <div className="mt-1 flex text-sm">
-                        <p className="text-gray-500">{product.color}</p>
-                        {product.size ? (
-                          <p className="ml-4 border-l border-gray-200 pl-4 text-gray-500">{product.size}</p>
-                        ) : null}
-                      </div> */}
-                          <p className="mt-1 text-sm font-medium text-gray-900">
+                          <p className="mt-1 text-sm font-medium text-secondary-600">
                             ${product.price}
                           </p>
                         </div>
@@ -83,29 +138,29 @@ const CartPage = () => {
                             <button
                               onClick={() => handleRemoveItem(product.id)}
                               type="button"
-                              className="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
+                              className="-m-2 inline-flex p-2 text-neutral-400 hover:text-error-500 transition-colors"
                             >
-                              <span className="sr-only">Remove</span>
+                              <span className="sr-only">{translations.removeItem[language]}</span>
                               <FaXmark className="h-5 w-5" aria-hidden="true" />
                             </button>
                           </div>
                         </div>
                       </div>
 
-                      <p className="mt-4 flex space-x-2 text-sm text-gray-700">
+                      <p className="mt-4 flex space-x-2 text-sm text-neutral-700">
                         {1 ? (
                           <FaCheck
-                            className="h-5 w-5 flex-shrink-0 text-green-500"
+                            className="h-5 w-5 flex-shrink-0 text-success-500"
                             aria-hidden="true"
                           />
                         ) : (
                           <FaClock
-                            className="h-5 w-5 flex-shrink-0 text-gray-300"
+                            className="h-5 w-5 flex-shrink-0 text-neutral-300"
                             aria-hidden="true"
                           />
                         )}
 
-                        <span>{1 ? "In stock" : `Ships in 3 days`}</span>
+                        <span>{1 ? translations.inStock[language] : translations.shipsIn[language]}</span>
                       </p>
                     </div>
                   </li>
@@ -116,31 +171,31 @@ const CartPage = () => {
             {/* Order summary */}
             <section
               aria-labelledby="summary-heading"
-              className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
+              className="mt-16 rounded-lg bg-primary-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8 shadow-layer border border-primary-100"
             >
               <h2
                 id="summary-heading"
-                className="text-lg font-medium text-gray-900"
+                className="text-lg font-display text-primary-700"
               >
-                Order summary
+                {translations.orderSummary[language]}
               </h2>
 
               <dl className="mt-6 space-y-4">
                 <div className="flex items-center justify-between">
-                  <dt className="text-sm text-gray-600">Subtotal</dt>
-                  <dd className="text-sm font-medium text-gray-900">
+                  <dt className="text-sm text-neutral-600">{translations.subtotal[language]}</dt>
+                  <dd className="text-sm font-medium text-primary-700">
                     ${total}
                   </dd>
                 </div>
-                <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                  <dt className="flex items-center text-sm text-gray-600">
-                    <span>Shipping estimate</span>
+                <div className="flex items-center justify-between border-t border-neutral-200 pt-4">
+                  <dt className="flex items-center text-sm text-neutral-600">
+                    <span>{translations.shippingEstimate[language]}</span>
                     <a
                       href="#"
-                      className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500"
+                      className="ml-2 flex-shrink-0 text-neutral-400 hover:text-secondary-500 transition-colors"
                     >
                       <span className="sr-only">
-                        Learn more about how shipping is calculated
+                        {translations.learnMoreShipping[language]}
                       </span>
                       <FaCircleQuestion
                         className="h-5 w-5"
@@ -148,17 +203,17 @@ const CartPage = () => {
                       />
                     </a>
                   </dt>
-                  <dd className="text-sm font-medium text-gray-900">$5.00</dd>
+                  <dd className="text-sm font-medium text-primary-700">$5.00</dd>
                 </div>
-                <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                  <dt className="flex text-sm text-gray-600">
-                    <span>Tax estimate</span>
+                <div className="flex items-center justify-between border-t border-neutral-200 pt-4">
+                  <dt className="flex text-sm text-neutral-600">
+                    <span>{translations.taxEstimate[language]}</span>
                     <a
                       href="#"
-                      className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500"
+                      className="ml-2 flex-shrink-0 text-neutral-400 hover:text-secondary-500 transition-colors"
                     >
                       <span className="sr-only">
-                        Learn more about how tax is calculated
+                        {translations.learnMoreTax[language]}
                       </span>
                       <FaCircleQuestion
                         className="h-5 w-5"
@@ -166,15 +221,15 @@ const CartPage = () => {
                       />
                     </a>
                   </dt>
-                  <dd className="text-sm font-medium text-gray-900">
+                  <dd className="text-sm font-medium text-primary-700">
                     ${total / 5}
                   </dd>
                 </div>
-                <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                  <dt className="text-base font-medium text-gray-900">
-                    Order total
+                <div className="flex items-center justify-between border-t border-neutral-200 pt-4">
+                  <dt className="text-base font-display text-primary-700">
+                    {translations.orderTotal[language]}
                   </dt>
-                  <dd className="text-base font-medium text-gray-900">
+                  <dd className="text-base font-medium text-primary-700">
                     ${total === 0 ? 0 : Math.round(total + total / 5 + 5)}
                   </dd>
                 </div>
@@ -183,9 +238,9 @@ const CartPage = () => {
                 <div className="mt-6">
                   <Link
                     href="/checkout"
-                    className="block flex justify-center items-center w-full uppercase bg-white px-4 py-3 text-base border border-black border-gray-300 font-bold text-blue-600 shadow-sm hover:bg-black hover:bg-gray-100 focus:outline-none focus:ring-2"
+                    className=" justify-center items-center w-full uppercase bg-secondary-500 px-4 py-3 text-base font-medium text-white rounded-lg shadow-glow hover:bg-secondary-600 transition-all focus:outline-none focus:ring-2 focus:ring-secondary-300"
                   >
-                    <span>Checkout</span>
+                    <span>{translations.checkout[language]}</span>
                   </Link>
                 </div>
               )}

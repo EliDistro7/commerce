@@ -6,12 +6,90 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
+import { motion } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 
 const LoginPage = () => {
   const router = useRouter();
   const [error, setError] = useState("");
-  // const session = useSession();
   const { data: session, status: sessionStatus } = useSession();
+  const { language } = useLanguage();
+
+  // Bilingual content
+  const translations = {
+    title: {
+      en: "Welcome Back",
+      sw: "Karibu Tena",
+    },
+    subtitle: {
+      en: "Sign in to your account to continue",
+      sw: "Ingia kwenye akaunti yako kuendelea",
+    },
+    email: {
+      label: {
+        en: "Email address",
+        sw: "Anwani ya barua pepe",
+      },
+      placeholder: {
+        en: "Your email address",
+        sw: "Anwani yako ya barua pepe",
+      },
+    },
+    password: {
+      label: {
+        en: "Password",
+        sw: "Nenosiri",
+      },
+      placeholder: {
+        en: "Your password",
+        sw: "Nenosiri lako",
+      },
+    },
+    forgotPassword: {
+      en: "Forgot password?",
+      sw: "Umesahau nenosiri?",
+    },
+    rememberMe: {
+      en: "Remember me",
+      sw: "Nikumbuke",
+    },
+    signIn: {
+      en: "Sign in",
+      sw: "Ingia",
+    },
+    orContinueWith: {
+      en: "Or continue with",
+      sw: "Au endelea na",
+    },
+    dontHaveAccount: {
+      en: "Don't have an account?",
+      sw: "Huna akaunti?",
+    },
+    signUp: {
+      en: "Sign up",
+      sw: "Jisajili",
+    },
+    errors: {
+      invalidEmail: {
+        en: "Email is invalid",
+        sw: "Barua pepe si sahihi",
+      },
+      invalidPassword: {
+        en: "Password is invalid",
+        sw: "Nenosiri si sahihi",
+      },
+      invalidCredentials: {
+        en: "Invalid email or password",
+        sw: "Barua pepe au nenosiri si sahihi",
+      },
+    },
+    success: {
+      login: {
+        en: "Successful login",
+        sw: "Umeingia kwa mafanikio",
+      },
+    },
+  };
 
   useEffect(() => {
     // if user has already logged in redirect to home page
@@ -26,14 +104,14 @@ const LoginPage = () => {
     const password = e.target[1].value;
 
     if (!isValidEmailAddressFormat(email)) {
-      setError("Email is invalid");
-      toast.error("Email is invalid");
+      setError(translations.errors.invalidEmail[language]);
+      toast.error(translations.errors.invalidEmail[language]);
       return;
     }
 
     if (!password || password.length < 8) {
-      setError("Password is invalid");
-      toast.error("Password is invalid");
+      setError(translations.errors.invalidPassword[language]);
+      toast.error(translations.errors.invalidPassword[language]);
       return;
     }
 
@@ -44,37 +122,54 @@ const LoginPage = () => {
     });
 
     if (res?.error) {
-      setError("Invalid email or password");
-      toast.error("Invalid email or password");
+      setError(translations.errors.invalidCredentials[language]);
+      toast.error(translations.errors.invalidCredentials[language]);
       if (res?.url) router.replace("/");
     } else {
       setError("");
-      toast.success("Successful login");
+      toast.success(translations.success.login[language]);
     }
   };
 
   if (sessionStatus === "loading") {
-    return <h1>Loading...</h1>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-accent-ivory">
+        <div className="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
   }
+  
   return (
-    <div className="bg-white">
-      <SectionTitle title="Login" path="Home | Login" />
-      <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8 bg-white">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="mt-6 text-center text-2xl font-normal leading-9 tracking-tight text-gray-900">
-            Sign in to your account
+    <div className="bg-gradient-to-br from-primary-50 to-accent-ivory min-h-screen">
+      <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="sm:mx-auto sm:w-full sm:max-w-md"
+        >
+          <h2 className="mt-6 text-center text-3xl font-heading font-semibold leading-9 tracking-tight text-primary-700">
+            {translations.title[language]}
           </h2>
-        </div>
+          <p className="mt-2 text-center text-sm text-neutral-600">
+            {translations.subtitle[language]}
+          </p>
+        </motion.div>
 
-        <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-[480px]">
-          <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mt-8 sm:mx-auto sm:w-full sm:max-w-[480px]"
+        >
+          <div className="bg-white px-6 py-10 shadow-soft rounded-xl sm:px-12 border border-primary-100">
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-sm font-medium leading-6 text-primary-700"
                 >
-                  Email address
+                  {translations.email.label[language]}
                 </label>
                 <div className="mt-2">
                   <input
@@ -83,18 +178,29 @@ const LoginPage = () => {
                     type="email"
                     autoComplete="email"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-lg border-0 py-2.5 px-4 text-neutral-800 shadow-sm ring-1 ring-inset ring-neutral-200 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm transition-all duration-200"
+                    placeholder={translations.email.placeholder[language]}
                   />
                 </div>
               </div>
 
               <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Password
-                </label>
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-6 text-primary-700"
+                  >
+                    {translations.password.label[language]}
+                  </label>
+                  <div className="text-sm leading-6">
+                    <a
+                      href="#"
+                      className="font-medium text-primary-500 hover:text-primary-600 transition-colors"
+                    >
+                      {translations.forgotPassword[language]}
+                    </a>
+                  </div>
+                </div>
                 <div className="mt-2">
                   <input
                     id="password"
@@ -102,46 +208,34 @@ const LoginPage = () => {
                     type="password"
                     autoComplete="current-password"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-lg border-0 py-2.5 px-4 text-neutral-800 shadow-sm ring-1 ring-inset ring-neutral-200 placeholder:text-neutral-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm transition-all duration-200"
+                    placeholder={translations.password.placeholder[language]}
                   />
                 </div>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
-                  />
-                  <label
-                    htmlFor="remember-me"
-                    className="ml-3 block text-sm leading-6 text-gray-900"
-                  >
-                    Remember me
-                  </label>
-                </div>
-
-                <div className="text-sm leading-6">
-                  <a
-                    href="#"
-                    className="font-semibold text-black hover:text-black"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
+              <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-neutral-300 text-primary-500 focus:ring-primary-500 transition-colors"
+                />
+                <label
+                  htmlFor="remember-me"
+                  className="ml-3 block text-sm leading-6 text-neutral-600"
+                >
+                  {translations.rememberMe[language]}
+                </label>
               </div>
 
               <div>
-                <CustomButton
-                  buttonType="submit"
-                  text="Sign in"
-                  paddingX={3}
-                  paddingY={1.5}
-                  customWidth="full"
-                  textSize="sm"
-                />
+                <button
+                  type="submit"
+                  className="flex w-full justify-center rounded-lg bg-primary-500 px-4 py-3 text-sm font-medium text-white shadow-sm hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-200 hover:shadow-md"
+                >
+                  {translations.signIn[language]}
+                </button>
               </div>
             </form>
 
@@ -151,33 +245,29 @@ const LoginPage = () => {
                   className="absolute inset-0 flex items-center"
                   aria-hidden="true"
                 >
-                  <div className="w-full border-t border-gray-200" />
+                  <div className="w-full border-t border-neutral-200" />
                 </div>
                 <div className="relative flex justify-center text-sm font-medium leading-6">
-                  <span className="bg-white px-6 text-gray-900">
-                    Or continue with
+                  <span className="bg-white px-6 text-neutral-500">
+                    {translations.orContinueWith[language]}
                   </span>
                 </div>
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-4">
                 <button
-                  className="flex w-full items-center border border-gray-300 justify-center gap-3 rounded-md bg-white px-3 py-1.5 text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                  onClick={() => {
-                    signIn("google");
-                  }}
+                  className="flex w-full items-center justify-center gap-3 rounded-lg border border-neutral-200 bg-white px-3 py-2.5 text-neutral-800 shadow-sm hover:bg-neutral-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 transition-all duration-200"
+                  onClick={() => signIn("google")}
                 >
-                  <FcGoogle />
-                  <span className="text-sm font-semibold leading-6">
+                  <FcGoogle className="h-5 w-5" />
+                  <span className="text-sm font-medium">
                     Google
                   </span>
                 </button>
 
                 <button
-                  className="flex w-full items-center justify-center gap-3 rounded-md bg-[#24292F] px-3 py-1.5 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
-                  onClick={() => {
-                    signIn("github");
-                  }}
+                  className="flex w-full items-center justify-center gap-3 rounded-lg bg-[#24292F] px-3 py-2.5 text-white shadow-sm hover:bg-[#1a1f24] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F] transition-all duration-200"
+                  onClick={() => signIn("github")}
                 >
                   <svg
                     className="h-5 w-5"
@@ -191,17 +281,31 @@ const LoginPage = () => {
                       clipRule="evenodd"
                     />
                   </svg>
-                  <span className="text-sm font-semibold leading-6">
+                  <span className="text-sm font-medium">
                     GitHub
                   </span>
                 </button>
               </div>
-              <p className="text-red-600 text-center text-[16px] my-4">
-                {error && error}
-              </p>
+              
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-6 p-3 rounded-lg bg-error-50 border border-error-100 text-error-700 text-center text-sm"
+                >
+                  {error}
+                </motion.div>
+              )}
+              
+              <div className="mt-6 text-center text-sm text-neutral-500">
+                {translations.dontHaveAccount[language]}{" "}
+                <a href="/register" className="font-medium text-primary-500 hover:text-primary-600 transition-colors">
+                  {translations.signUp[language]}
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
