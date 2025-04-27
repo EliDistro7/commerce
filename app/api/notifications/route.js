@@ -1,57 +1,71 @@
-// pages/api/notifications/index.js
+// app/api/notifications/route.js
 import { PrismaClient } from '@prisma/client';
+import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
-export default async function handler(req, res) {
-  if (req.method === 'GET') {
-    // Get all notifications for a specific user
-    try {
-      const userId = req.query.userId;
-      if (!userId) {
-        return res.status(400).json({ error: 'User ID is required' });
-      }
+// GET handler
+export async function GET(request) {
+  try {
+    // Get URL params using the URL and URLSearchParams APIs
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get('userId');
 
-      const notifications = await prisma.notification.findMany({
-        where: { userId },
-        orderBy: { createdAt: 'desc' }
-      });
-
-      return res.status(200).json(notifications);
-    } catch (error) {
-      console.error('Error fetching notifications:', error);
-      return res.status(500).json({ error: 'Failed to fetch notifications' });
+    if (!userId) {
+      return NextResponse.json(
+        { error: 'User ID is required' },
+        { status: 400 }
+      );
     }
-  } else if (req.method === 'POST') {
-    // Create a new notification
-    try {
-      const { userId, text, type } = req.body;
-      
-      if (!userId || !text || !type) {
-        return res.status(400).json({ error: 'Missing required fields' });
-      }
 
-      const notification = await prisma.notification.create({
-        data: {
-          userId,
-          text,
-          type,
-          read: false
-        }
-      });
+    const notifications = await prisma.notification.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' }
+    });
 
-      // Emit to Socket.io server
-      if (req.socket.server.io) {
-        req.socket.server.io.to(userId).emit('newNotification', notification);
-      }
+    return NextResponse.json(notifications);
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch notifications' },
+      { status: 500 }
+    );
+  }
+}
 
-      return res.status(201).json(notification);
-    } catch (error) {
-      console.error('Error creating notification:', error);
-      return res.status(500).json({ error: 'Failed to create notification' });
+// POST handler
+export async function POST(request) {
+  try {
+    // Parse the request body
+    const body = await request.json();
+    const { userId, text, type } = body;
+    
+    if (!userId || !text || !type) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
     }
-  } else {
-    res.setHeader('Allow', ['GET', 'POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+
+    const notification = await prisma.notification.create({
+      data: {
+        userId,
+        text,
+        type,
+        read: false
+      }
+    });
+
+    // Note: Socket.io handling is different in App Router
+    // You'll need to implement this differently, possibly using
+    // a server action or a separate WebSocket server
+
+    return NextResponse.json(notification, { status: 201 });
+  } catch (error) {
+    console.error('Error creating notification:', error);
+    return NextResponse.json(
+      { error: 'Failed to create notification' },
+      { status: 500 }
+    );
   }
 }
