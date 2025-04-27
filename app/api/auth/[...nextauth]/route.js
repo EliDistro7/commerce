@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 import prisma from "@/utils/db";
 import { nanoid } from "nanoid";
 
-export const authOptions = {
+const authOptions = {
   // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
@@ -18,7 +18,6 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-
         try {
           const user = await prisma.user.findFirst({
             where: {
@@ -55,17 +54,15 @@ export const authOptions = {
         return true;
       }
       // if (account?.provider == "github") {
-
       //   try {
-      //     const existingUser = await prisma.user.findFirst({ where: {email: user.email!} });
+      //     const existingUser = await prisma.user.findFirst({ where: { email: user.email! } });
       //     if (!existingUser) {
-
       //       await prisma.user.create({
-      //           data: {
-      //             id: nanoid() + "",
-      //             email: user.email!
-      //           },
-      //         });
+      //         data: {
+      //           id: nanoid() + "",
+      //           email: user.email!
+      //         },
+      //       });
       //       return true;
       //     }
       //     return true;
@@ -74,19 +71,16 @@ export const authOptions = {
       //     return false;
       //   }
       // }
-
       // if (account?.provider == "google") {
-
       //   try {
-      //     const existingUser = await prisma.user.findFirst({where: { email: user.email! }});
+      //     const existingUser = await prisma.user.findFirst({ where: { email: user.email! } });
       //     if (!existingUser) {
       //       await prisma.user.create({
-      //           data: {
-      //             id: nanoid() + "",
-      //             email: user.email!
-      //           },
-      //         });
-
+      //         data: {
+      //           id: nanoid() + "",
+      //           email: user.email!
+      //         },
+      //       });
       //       return true;
       //     }
       //     return true;
@@ -99,5 +93,6 @@ export const authOptions = {
   },
 };
 
-export const handler = NextAuth(authOptions);
+const handler = NextAuth(authOptions);
+
 export { handler as GET, handler as POST };
