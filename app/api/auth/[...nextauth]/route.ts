@@ -1,18 +1,18 @@
-import NextAuth, { NextAuthOptions, User as AuthUser, Profile  } from "next-auth";
-import { Account } from "next-auth";
+// app/api/auth/[...nextauth]/route.ts
+import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import prisma from "@/utils/db";
-import { nanoid } from "nanoid";
+import { AuthOptions } from "next-auth";
 
 interface Credentials {
   email: string;
   password: string;
 }
 
-const authOptions: NextAuthOptions = {
+const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
       id: "credentials",
@@ -21,7 +21,7 @@ const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: Credentials | undefined) {
+      async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
@@ -45,11 +45,11 @@ const authOptions: NextAuthOptions = {
 
           return user;
         } catch (err) {
-          throw new Error((err as Error).message);
+          console.error("Authorization error:", err);
+          throw new Error("Failed to authenticate user");
         }
       },
     }),
-    // Uncomment and configure these if needed later
     // GithubProvider({
     //   clientId: process.env.GITHUB_ID ?? "",
     //   clientSecret: process.env.GITHUB_SECRET ?? "",
@@ -60,25 +60,18 @@ const authOptions: NextAuthOptions = {
     // }),
   ],
   callbacks: {
-    async signIn({
-      user,
-      account,
-      profile,
-      email,
-      credentials,
-    }: {
-      user: AuthUser ;
-      account: Account | null;
-      profile?: Profile;
-      email?: { verificationRequest?: boolean };
-      credentials?: Record<string, unknown>;
-    }): Promise<boolean | string> {
+    async signIn({ user, account }) {
       if (account?.provider === "credentials") {
         return true;
       }
       return false;
     },
   },
+  pages: {
+    signIn: "/auth/signin",
+    error: "/auth/error",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);
