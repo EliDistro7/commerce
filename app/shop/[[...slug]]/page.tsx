@@ -90,10 +90,11 @@ const ShopPage = (slug: any) => {
             </h1>
           </div>
           {slug?.params?.slug && slug?.params?.slug[0]?.length > 0 && (
-            <p className="text-neutral-600 mt-2 ml-3">
-              {translations.showingResults[language]} "{currentCategory}"
-            </p>
-          )}
+  <p className="text-neutral-600 mt-2 ml-3">
+    {translations.showingResults[language]} &quot;{currentCategory}&quot;
+  </p>
+)}
+
         </motion.div>
         
         <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-x-10 gap-y-8">

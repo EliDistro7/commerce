@@ -8,7 +8,7 @@
 // Output: bilingual products grid with loading states and improved aesthetics
 // *********************
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProductItem from "./ProductItem";
 import { useLanguage } from "@/context/LanguageContext";
 import { IoBasketOutline } from "react-icons/io5";
@@ -25,22 +25,8 @@ interface Product {
   // Add other properties as needed
 }
 
-const Products = async ({ slug }: any) => {
-  // Language context for translations
-  const { language } = useLanguage();
-
-  // Translations object
-  const translations = {
-    noProducts: {
-      en: "No products found for specified query",
-      sw: "Hakuna bidhaa zilizopatikana kwa hoja iliyobainishwa"
-    },
-    loading: {
-      en: "Loading products...",
-      sw: "Inapakia bidhaa..."
-    }
-  };
-
+// Helper function to fetch products
+const fetchProducts = async (slug: any) => {
   // Getting all data from URL slug and preparing everything for sending GET request
   const inStockNum = slug?.searchParams?.inStock === "true" ? 1 : 0;
   const outOfStockNum = slug?.searchParams?.outOfStock === "true" ? 1 : 0;
@@ -79,19 +65,53 @@ const Products = async ({ slug }: any) => {
     }sort=${slug?.searchParams?.sort}&page=${page}`
   );
 
-  const products = await data.json();
+  return data.json();
+};
 
-  // Skeleton loader for products when loading
-  const ProductSkeleton = () => (
-    <div className="animate-pulse bg-white rounded-lg overflow-hidden shadow-sm border border-neutral-100 h-80 w-full">
-      <div className="h-48 bg-neutral-200"></div>
-      <div className="p-4">
-        <div className="h-5 bg-neutral-200 rounded w-3/4 mb-3"></div>
-        <div className="h-4 bg-neutral-200 rounded w-1/2 mb-3"></div>
-        <div className="h-8 bg-neutral-200 rounded w-1/3"></div>
-      </div>
+// Skeleton loader for products when loading
+const ProductSkeleton = () => (
+  <div className="animate-pulse bg-white rounded-lg overflow-hidden shadow-sm border border-neutral-100 h-80 w-full">
+    <div className="h-48 bg-neutral-200"></div>
+    <div className="p-4">
+      <div className="h-5 bg-neutral-200 rounded w-3/4 mb-3"></div>
+      <div className="h-4 bg-neutral-200 rounded w-1/2 mb-3"></div>
+      <div className="h-8 bg-neutral-200 rounded w-1/3"></div>
     </div>
-  );
+  </div>
+);
+
+// Main component (non-async)
+const Products = ({ slug }: any) => {
+  // Language context for translations
+  const { language } = useLanguage();
+  const [products, setProducts] = useState<Product[] | null>(null);
+
+  // Translations object
+  const translations = {
+    noProducts: {
+      en: "No products found for specified query",
+      sw: "Hakuna bidhaa zilizopatikana kwa hoja iliyobainishwa"
+    },
+    loading: {
+      en: "Loading products...",
+      sw: "Inapakia bidhaa..."
+    }
+  };
+
+  // Fetch products when component mounts or slug changes
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const fetchedProducts = await fetchProducts(slug);
+        setProducts(fetchedProducts);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        setProducts([]);
+      }
+    };
+
+    getProducts();
+  }, [slug]);
 
   return (
     <div className="min-h-64 opacity-100 transition-opacity duration-500 ease-in">

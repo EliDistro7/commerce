@@ -20,11 +20,12 @@ const SearchPageClient = ({ products, search, translations }) => {
     <div className="bg-accent-ivory/50 min-h-screen pb-12">
       <SectionTitle title={t.searchPage} path={t.homePath} />
       <div className="max-w-screen-2xl mx-auto px-4">
-        {search && (
-          <h3 className="text-4xl text-center py-10 max-sm:text-3xl font-heading text-primary-700">
-            {t.showingResultsFor} <span className="text-primary-500 font-semibold">"{search}"</span>
-          </h3>
-        )}
+      {search && (
+  <h3 className="text-4xl text-center py-10 max-sm:text-3xl font-heading text-primary-700">
+    {t.showingResultsFor} <span className="text-primary-500 font-semibold">&quot;{search}&quot;</span>
+  </h3>
+)}
+
         <div className="grid grid-cols-4 justify-items-center gap-x-4 gap-y-8 max-[1300px]:grid-cols-3 max-lg:grid-cols-2 max-[500px]:grid-cols-1">
           {products.length > 0 ? (
             products.map((product) => (

@@ -1,6 +1,7 @@
 // src/components/checkout/LocationMapSection.jsx
 import { useEffect, useState, useRef } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
+import { AlertCircle } from 'lucide-react';
 
 // Translations object
 const translations = {

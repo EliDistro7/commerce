@@ -42,10 +42,11 @@ export const OrderStatusSection = ({ formData, onChange }) => {
             </select>
           </div>
           {!formData.isAdmin && (
-            <p className="mt-2 text-sm text-gray-500">
-              Your order will be set to "Pending" until we confirm it.
-            </p>
-          )}
+  <p className="mt-2 text-sm text-gray-500">
+    Your order will be set to {"\"Pending\""} until we confirm it.
+  </p>
+)}
+
         </div>
       </section>
     );
