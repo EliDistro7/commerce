@@ -5,26 +5,15 @@ import ProductItem from "./ProductItem";
 import { useLanguage } from "@/context/LanguageContext";
 import { IoBasketOutline } from "react-icons/io5";
 
-// TypeScript interface for product
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  rating: number;
-  inStock: number;
-  category: string;
-  imageUrl?: string;
-  // Add other properties as needed
-}
 
 // Helper function to fetch products
-const fetchProducts = async (slug: any) => {
+const fetchProducts = async (slug) => {
   // Getting all data from URL slug and preparing everything for sending GET request
   const inStockNum = slug?.searchParams?.inStock === "true" ? 1 : 0;
   const outOfStockNum = slug?.searchParams?.outOfStock === "true" ? 1 : 0;
   const page = slug?.searchParams?.page ? Number(slug?.searchParams?.page) : 1;
 
-  let stockMode: string = "lte";
+  let stockMode= "lte";
   
   // Preparing inStock and out of stock filter for GET request
   // If in stock checkbox is checked, stockMode is "equals"
@@ -73,10 +62,10 @@ const ProductSkeleton = () => (
 );
 
 // Main component (non-async)
-const Products = ({ slug }: any) => {
+const Products = ({ slug }) => {
   // Language context for translations
   const { language } = useLanguage();
-  const [products, setProducts] = useState<Product[] | null>(null);
+  const [products, setProducts] = useState(null);
 
   // Translations object
   const translations = {
@@ -110,7 +99,7 @@ const Products = ({ slug }: any) => {
       {products ? (
         products.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product: Product) => (
+            {products.map((product) => (
               <div 
                 key={product.id} 
                 className="transform transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
