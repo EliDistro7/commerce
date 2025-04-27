@@ -10,16 +10,14 @@ import {
 } from "../../../../../utils/categoryFormating";
 import { nanoid } from "nanoid";
 
-interface DashboardProductDetailsProps {
-  params: { id: number };
-}
+
 
 const DashboardProductDetails = ({
   params: { id },
-}: DashboardProductDetailsProps) => {
-  const [product, setProduct] = useState<Product>();
-  const [categories, setCategories] = useState<Category[]>();
-  const [otherImages, setOtherImages] = useState<OtherImages[]>([]);
+}) => {
+  const [product, setProduct] = useState();
+  const [categories, setCategories] = useState();
+  const [otherImages, setOtherImages] = useState([]);
   const router = useRouter();
 
   // functionality for deleting product
@@ -27,7 +25,7 @@ const DashboardProductDetails = ({
     const requestOptions = {
       method: "DELETE",
     };
-    fetch(`http://localhost:3001/api/products/${id}`, requestOptions)
+    fetch(`${process.env.NEXT_PUBLIC_CLIENT}/api/products/${id}`, requestOptions)
       .then((response) => {
         if (response.status !== 204) {
           if (response.status === 400) {
@@ -65,7 +63,7 @@ const DashboardProductDetails = ({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(product),
     };
-    fetch(`http://localhost:3001/api/products/${id}`, requestOptions)
+    fetch(`${process.env.NEXT_PUBLIC_CLIENT}/api/products/${id}`, requestOptions)
       .then((response) => {
         if (response.status === 200) {
           return response.json();
@@ -80,12 +78,12 @@ const DashboardProductDetails = ({
   };
 
   // functionality for uploading main image file
-  const uploadFile = async (file: any) => {
+  const uploadFile = async (file) => {
     const formData = new FormData();
     formData.append("uploadedFile", file);
 
     try {
-      const response = await fetch("http://localhost:3001/api/main-image", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_CLIENT}/api/main-image`, {
         method: "POST",
         body: formData,
       });
@@ -150,7 +148,7 @@ const DashboardProductDetails = ({
               className="input input-bordered w-full max-w-xs"
               value={product?.title}
               onChange={(e) =>
-                setProduct({ ...product!, title: e.target.value })
+                setProduct({ ...product, title: e.target.value })
               }
             />
           </label>
@@ -168,7 +166,7 @@ const DashboardProductDetails = ({
               className="input input-bordered w-full max-w-xs"
               value={product?.price}
               onChange={(e) =>
-                setProduct({ ...product!, price: Number(e.target.value) })
+                setProduct({ ...product, price: Number(e.target.value) })
               }
             />
           </label>
@@ -185,7 +183,7 @@ const DashboardProductDetails = ({
               className="input input-bordered w-full max-w-xs"
               value={product?.manufacturer}
               onChange={(e) =>
-                setProduct({ ...product!, manufacturer: e.target.value })
+                setProduct({ ...product, manufacturer: e.target.value })
               }
             />
           </label>
@@ -204,7 +202,7 @@ const DashboardProductDetails = ({
               value={product?.slug && convertSlugToURLFriendly(product?.slug)}
               onChange={(e) =>
                 setProduct({
-                  ...product!,
+                  ...product,
                   slug: convertSlugToURLFriendly(e.target.value),
                 })
               }
@@ -223,7 +221,7 @@ const DashboardProductDetails = ({
               className="select select-bordered"
               value={product?.inStock}
               onChange={(e) => {
-                setProduct({ ...product!, inStock: Number(e.target.value) });
+                setProduct({ ...product, inStock: Number(e.target.value) });
               }}
             >
               <option value={1}>Yes</option>
@@ -243,13 +241,13 @@ const DashboardProductDetails = ({
               value={product?.categoryId}
               onChange={(e) =>
                 setProduct({
-                  ...product!,
+                  ...product,
                   categoryId: e.target.value,
                 })
               }
             >
               {categories &&
-                categories.map((category: Category) => (
+                categories.map((category) => (
                   <option key={category?.id} value={category?.id}>
                     {formatCategoryName(category?.name)}
                   </option>
@@ -269,7 +267,7 @@ const DashboardProductDetails = ({
 
               if (selectedFile) {
                 uploadFile(selectedFile);
-                setProduct({ ...product!, mainImage: selectedFile.name });
+                setProduct({ ...product, mainImage: selectedFile.name });
               }
             }}
           />
@@ -309,7 +307,7 @@ const DashboardProductDetails = ({
               className="textarea textarea-bordered h-24"
               value={product?.description}
               onChange={(e) =>
-                setProduct({ ...product!, description: e.target.value })
+                setProduct({ ...product, description: e.target.value })
               }
             ></textarea>
           </label>
@@ -320,13 +318,13 @@ const DashboardProductDetails = ({
           <button
             type="button"
             onClick={updateProduct}
-            className="uppercase bg-blue-500 px-10 py-5 text-lg border border-black border-gray-300 font-bold text-white shadow-sm hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-2"
+            className="uppercase bg-blue-500 px-10 py-5 text-lg border border-gray-300 font-bold text-white shadow-sm hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-2"
           >
             Update product
           </button>
           <button
             type="button"
-            className="uppercase bg-red-600 px-10 py-5 text-lg border border-black border-gray-300 font-bold text-white shadow-sm hover:bg-red-700 hover:text-white focus:outline-none focus:ring-2"
+            className="uppercase bg-red-600 px-10 py-5 text-lg border border-gray-300 font-bold text-white shadow-sm hover:bg-red-700 hover:text-white focus:outline-none focus:ring-2"
             onClick={deleteProduct}
           >
             Delete product
