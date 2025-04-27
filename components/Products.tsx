@@ -1,12 +1,4 @@
-// *********************
-// Role of the component: Showing products on the shop page with applied filter and sort
-// Name of the component: Products.tsx
-// Developer: Aleksandar Kuzmanovic (Enhanced version)
-// Version: 2.0
-// Component call: <Products slug={slug} />
-// Input parameters: { slug }: any
-// Output: bilingual products grid with loading states and improved aesthetics
-// *********************
+'use client';
 
 import React, { useEffect, useState } from "react";
 import ProductItem from "./ProductItem";
@@ -54,7 +46,7 @@ const fetchProducts = async (slug: any) => {
 
   // Sending API request with filtering, sorting and pagination for getting all products
   const data = await fetch(
-    `http://localhost:3000/api/products?filters[price][$lte]=${
+    `${process.env.NEXT_PUBLIC_CLIENT}/api/products?filters[price][$lte]=${
       slug?.searchParams?.price || 3000
     }&filters[rating][$gte]=${
       Number(slug?.searchParams?.rating) || 0
