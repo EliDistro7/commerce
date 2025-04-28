@@ -33,7 +33,7 @@ app.use(express.json());
 // Also match Express CORS middleware:
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? "https://your-frontend.com" 
+    ? "https://commerce-bari1.vercel.app/" 
     : "http://localhost:3000",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
