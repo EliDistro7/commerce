@@ -37,25 +37,25 @@ export const CheckoutForm = ({ cartItems, total, isAdmin = false }) => {
       },
       orderStatus: {
         en: "Order Status",
-        sw: "Hali ya Agizo"
+        sw: "Hali ya Oda"
       }
     },
     alerts: {
       success: {
         title: {
           en: "Order submitted successfully!",
-          sw: "Agizo limetumwa kwa mafanikio!"
+          sw: "Oda imetumwa kwa mafanikio!"
         },
         message: {
           en: "Thank you for your order. We will contact you soon to confirm delivery details.",
-          sw: "Asante kwa agizo lako. Tutawasiliana nawe hivi karibuni kuthibitisha maelezo ya utoaji."
+          sw: "Asante kwa Oda lako. Tutawasiliana nawe hivi karibuni kuthibitisha maelezo ya kukufikishia."
         }
       }
     },
     buttons: {
       submit: {
         en: "Submit Order",
-        sw: "Tuma Agizo"
+        sw: "Weka Oda"
       },
       submitting: {
         en: "Processing...",
@@ -63,7 +63,7 @@ export const CheckoutForm = ({ cartItems, total, isAdmin = false }) => {
       },
       update: {
         en: "Update Order",
-        sw: "Sasisha Agizo"
+        sw: "Sasisha Oda"
       },
       updating: {
         en: "Updating...",
