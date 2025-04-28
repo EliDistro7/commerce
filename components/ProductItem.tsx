@@ -6,9 +6,12 @@ import Link from "next/link";
 import ProductItemRating from "./ProductItemRating";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
 
 const ProductItem = ({ product }: { product: Product }) => {
   const { language } = useLanguage();
+  const [isLoading, setIsLoading] = useState(false);
 
   const translations = {
     viewProduct: {
@@ -19,6 +22,12 @@ const ProductItem = ({ product }: { product: Product }) => {
       en: "TZS",
       sw: "TSh"
     }
+  };
+
+  const handleViewProduct = () => {
+    setIsLoading(true);
+    // This would normally redirect the user, but we're simulating the loading state
+    // The actual navigation is handled by the Link component
   };
 
   return (
@@ -74,19 +83,29 @@ const ProductItem = ({ product }: { product: Product }) => {
         <Link
           href={`/product/${product.slug}`}
           className="inline-flex w-full items-center justify-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-all duration-300 group-hover:shadow-lg transform group-hover:-translate-y-1"
+          onClick={handleViewProduct}
         >
-          <span>{translations.viewProduct[language]}</span>
-          <motion.svg 
-            className="w-4 h-4" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-            initial={{ x: 0 }}
-            whileHover={{ x: 3 }}
-            transition={{ duration: 0.2 }}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </motion.svg>
+          {isLoading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <span>Loading...</span>
+            </>
+          ) : (
+            <>
+              <span>{translations.viewProduct[language]}</span>
+              <motion.svg 
+                className="w-4 h-4" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+                initial={{ x: 0 }}
+                whileHover={{ x: 3 }}
+                transition={{ duration: 0.2 }}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </motion.svg>
+            </>
+          )}
         </Link>
       </div>
     </motion.div>

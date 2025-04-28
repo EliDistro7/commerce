@@ -3,9 +3,12 @@ import { motion } from "framer-motion";
 import SearchInput from "./SearchInput";
 import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
 
 const Hero = () => {
   const { language } = useLanguage();
+  const [isLoading, setIsLoading] = useState(false);
 
   // Bilingual content
   const translations = {
@@ -39,6 +42,16 @@ const Hero = () => {
       en: "Search dishes...",
       sw: "Tafuta vyakula...",
     },
+    loading: {
+      en: "Loading...",
+      sw: "Inapakia...",
+    },
+  };
+
+  const handleExploreClick = () => {
+    setIsLoading(true);
+    // This would normally redirect the user, but we're simulating the loading state
+    // The actual navigation is handled by the Link component
   };
 
   return (
@@ -77,9 +90,6 @@ const Hero = () => {
             </p>
           </motion.div>
 
-          {/* Search Input */}
-         
-
           {/* Featured Tags */}
           <div className="flex flex-wrap gap-2 md:gap-4 mt-4 md:mt-6">
             {translations.tags[language].map((tag) => (
@@ -101,18 +111,28 @@ const Hero = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            <Link href='/shop' className="bg-secondary-500 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg md:rounded-xl 
-                             hover:bg-secondary-600 transition-colors font-medium flex items-center justify-center gap-2">
-              {translations.buttons.explore[language]}
-              <span className="text-lg">→</span>
+            <Link 
+              href='/shop' 
+              className="bg-secondary-500 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg md:rounded-xl 
+                        hover:bg-secondary-600 transition-colors font-medium flex items-center justify-center gap-2"
+              onClick={handleExploreClick}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>{translations.loading[language]}</span>
+                </>
+              ) : (
+                <>
+                  {translations.buttons.explore[language]}
+                  <span className="text-lg">→</span>
+                </>
+              )}
             </Link>
-         
           </motion.div>
         </div>
       </div>
-
-      {/* Decorative Elements */}
-          </section>
+    </section>
   );
 };
 
