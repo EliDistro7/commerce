@@ -184,7 +184,7 @@ const CartPage = () => {
                 <div className="flex items-center justify-between">
                   <dt className="text-sm text-neutral-600">{translations.subtotal[language]}</dt>
                   <dd className="text-sm font-medium text-primary-700">
-                    ${total}
+                    TZS {total}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between border-t border-neutral-200 pt-4">
@@ -203,9 +203,10 @@ const CartPage = () => {
                       />
                     </a>
                   </dt>
-                  <dd className="text-sm font-medium text-primary-700">$5.00</dd>
+                 
                 </div>
-                <div className="flex items-center justify-between border-t border-neutral-200 pt-4">
+              {/*  
+              <div className="flex items-center justify-between border-t border-neutral-200 pt-4">
                   <dt className="flex text-sm text-neutral-600">
                     <span>{translations.taxEstimate[language]}</span>
                     <a
@@ -225,12 +226,13 @@ const CartPage = () => {
                     ${total / 5}
                   </dd>
                 </div>
+                */}
                 <div className="flex items-center justify-between border-t border-neutral-200 pt-4">
                   <dt className="text-base font-display text-primary-700">
                     {translations.orderTotal[language]}
                   </dt>
                   <dd className="text-base font-medium text-primary-700">
-                    ${total === 0 ? 0 : Math.round(total + total / 5 + 5)}
+                    TZS {total === 0 ? 0 : Math.round(total + total / 5 )}
                   </dd>
                 </div>
               </dl>
