@@ -38,9 +38,9 @@ export const OrderSummary = ({ products }) => {
   const t = translations[language] || translations.en;
   
   // Calculate values
-  const shipping = 5;
+  const shipping = 0;
   const taxes = total / 5;
-  const finalTotal = total === 0 ? 0 : (total + taxes + shipping);
+  const finalTotal = total === 0 ? 0 : (total + shipping);
 
   // Animation variants
   const containerVariants = {
@@ -140,10 +140,7 @@ export const OrderSummary = ({ products }) => {
             <dd className="text-gray-900 font-semibold">TZS {shipping.toFixed(2)}</dd>
           </div>
 
-          <div className="flex items-center justify-between">
-            <dt className="text-gray-600 font-medium">{t.taxes}</dt>
-            <dd className="text-gray-900 font-semibold">TZS {taxes.toFixed(2)}</dd>
-          </div>
+         
 
           <div className="flex items-center justify-between border-t border-gray-200 pt-6 mt-2">
             <dt className="text-lg font-bold">{t.estimatedTotal}</dt>

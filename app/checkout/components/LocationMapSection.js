@@ -17,14 +17,14 @@ const translations = {
     errorGettingLocation: "Error getting your location"
   },
   sw: {
-    deliveryLocation: "Eneo la Utoaji",
+    deliveryLocation: "Eneo la Kuletewa Chakula",
     mapInstructions: "Bofya kwenye ramani au tumia kisanduku cha kutafuta kuweka eneo lako la utoaji",
     useMyLocation: "Tumia Eneo Langu",
     locating: "Inatafuta...",
     searchPlaceholder: "Tafuta eneo...",
-    markerTitle: "Buruta kuweka eneo lako la utoaji",
+    markerTitle: "Kuweka eneo lako la Ulipo",
     selectedCoordinates: "Koordineti zilizochaguliwa",
-    geolocationNotSupported: "Geolocation haiungwi na kivinjari chako",
+    geolocationNotSupported: "Geolocation haipo kwenye kivinjari chako",
     errorGettingLocation: "Hitilafu katika kupata eneo lako"
   }
 };
