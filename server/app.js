@@ -564,6 +564,7 @@ app.get('/api/dashboard', async (req, res) => {
   try {
     const axios = require('axios');
     const baseUrl = process.env.NEXT_PUBLIC_SERVER;
+    console.log('base url')
 
     // Make internal requests to our other endpoints
     const statsPromise = axios.get(`${baseUrl}/api/dashboard/stats`)
