@@ -67,11 +67,12 @@ const demoCategories = [
 ];
 
 // Demo Products
+// Demo Products
 const demoProducts = [
   {
     id: "1",
     title: "Ugali na Samaki",
-    price: 8,
+    price: 6000,
     rating: 5,
     description: "Traditional maize porridge served with grilled fish",
     mainImage: "ugali-samaki.webp",
@@ -82,8 +83,8 @@ const demoProducts = [
   },
   {
     id: "2",
-    title: "Mchuzi wa Ndizi",
-    price: 6,
+    title: "Supu ya Ndizi",
+    price: 3000,
     rating: 4,
     description: "Plantain banana stew with coconut milk",
     mainImage: "ndizi-stew.webp",
@@ -95,7 +96,7 @@ const demoProducts = [
   {
     id: "3",
     title: "Chipsi Mayai",
-    price: 4,
+    price: 2500,
     rating: 5,
     description: "Popular street food of fries and eggs omelette",
     mainImage: "chipsi-mayai.webp",
@@ -107,7 +108,7 @@ const demoProducts = [
   {
     id: "4",
     title: "Nyama Choma",
-    price: 10,
+    price: 8000,
     rating: 5,
     description: "Grilled meat served with kachumbari salad",
     mainImage: "nyama-choma.webp",
@@ -119,7 +120,7 @@ const demoProducts = [
   {
     id: "5",
     title: "Wali wa Nazi",
-    price: 5,
+    price: 3000,
     rating: 4,
     description: "Coconut rice with tropical spices",
     mainImage: "wali-wa-nazi.webp",
@@ -131,7 +132,7 @@ const demoProducts = [
   {
     id: "6",
     title: "Mandazi",
-    price: 3,
+    price: 200,
     rating: 4,
     description: "Sweet fried dough triangles - perfect with coffee",
     mainImage: "mandazi.webp",
@@ -143,7 +144,7 @@ const demoProducts = [
   {
     id: "7",
     title: "Mishkaki",
-    price: 2,
+    price: 500,
     rating: 5,
     description: "Marinated meat skewers grilled over charcoal",
     mainImage: "mishikaki.webp",
@@ -155,7 +156,7 @@ const demoProducts = [
   {
     id: "8",
     title: "Supu ya Ndizi",
-    price: 4,
+    price: 4000,
     rating: 4,
     description: "Creamy green banana soup with local spices",
     mainImage: "supu-ndizi.webp",
@@ -167,7 +168,7 @@ const demoProducts = [
   {
     id: "9",
     title: "Kachumbari",
-    price: 2,
+    price: 500,
     rating: 5,
     description: "Fresh tomato and onion salad with lime dressing",
     mainImage: "kachumbari.webp",
@@ -179,7 +180,7 @@ const demoProducts = [
   {
     id: "10",
     title: "Pilau ya Kuku",
-    price: 7,
+    price: 6000,
     rating: 5,
     description: "Spiced rice with chicken and raisins",
     mainImage: "pilau-kuku.webp",
@@ -191,7 +192,7 @@ const demoProducts = [
   {
     id: "11",
     title: "Chapati",
-    price: 1,
+    price: 500,
     rating: 5,
     description: "Flaky fried flatbread - perfect with stews",
     mainImage: "chapati.webp",
@@ -203,7 +204,7 @@ const demoProducts = [
   {
     id: "12",
     title: "Uji wa Mtama",
-    price: 3,
+    price: 1000,
     rating: 4,
     description: "Traditional finger millet porridge with peanut butter",
     mainImage: "uji-wa-mtama.webp",
@@ -256,6 +257,7 @@ const demoImages = [
 ];
 
 // Demo Orders
+// Demo Orders
 const demoOrders = [
   {
     id: "order-1",
@@ -270,7 +272,7 @@ const demoOrders = [
     city: "Dar es Salaam",
     country: "Tanzania",
     status: "delivered",
-    total: 15,
+    total: 6400, // Updated total (6000 for Ugali na Samaki + 200×2 for Mandazi)
     orderNotice: "Please deliver to the security desk"
   },
   {
@@ -286,11 +288,10 @@ const demoOrders = [
     city: "Arusha",
     country: "Tanzania",
     status: "processing",
-    total: 18,
+    total: 9500, // Updated total (8000 for Nyama Choma + 500×3 for Kachumbari)
     orderNotice: null
   }
 ];
-
 // Demo Order Products
 const demoOrderProducts = [
   {
