@@ -562,15 +562,18 @@ app.get('/api/admin/activity', async (req, res) => {
 // Combined dashboard data endpoint (for convenience)
 app.get('/api/dashboard', async (req, res) => {
   try {
+    const axios = require('axios');
+    const baseUrl = process.env.NEXT_PUBLIC_SERVER;
+
     // Make internal requests to our other endpoints
-    const statsPromise = fetch(`${process.env.NEXT_PUBLIC_SERVER}/api/dashboard/stats`)
-      .then(res => res.json());
+    const statsPromise = axios.get(`${baseUrl}/api/dashboard/stats`)
+      .then(response => response.data);
     
-    const ordersPromise = fetch(`${process.env.NEXT_PUBLIC_SERVER}/api/dashboard/recent-orders`)
-      .then(res => res.json());
+    const ordersPromise = axios.get(`${baseUrl}/api/dashboard/recent-orders`)
+      .then(response => response.data);
     
-    const activityPromise = fetch(`${process.env.NEXT_PUBLIC_SERVER}/api/dashboard/recent-activity`)
-      .then(res => res.json());
+    const activityPromise = axios.get(`${baseUrl}/api/dashboard/recent-activity`)
+      .then(response => response.data);
     
     // Wait for all promises to resolve
     const [statsData, ordersData, activityData] = await Promise.all([

@@ -5,9 +5,10 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "build": "prisma generate && npx prisma migrate deploy && node utills/insertDemoData.js",
+    "build": "prisma generate && node utills/insertDemoData.js",
     "start": "node app.js",
     "seed": "node utills/insertDemoData.js",
+    "reset": "node utills/resetDatabase.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "@prisma/client": "^5.12.1",
+    "axios": "^1.9.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
