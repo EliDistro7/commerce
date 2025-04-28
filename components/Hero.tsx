@@ -19,11 +19,11 @@ const Hero = () => {
     },
     description: {
       en: "Discover the rich flavors of East Africa with handcrafted recipes, fresh local ingredients, and unforgettable dining experiences.",
-      sw: "Gundua ladha nzuri za Afrika Mashariki kwa mapishi ya kiganjani, viungo vya kienyeji, na uzoefu wa kula usahaulifu.",
+      sw: "Pata ladha nzuri za mapishi murua, viungo vya kienyeji, na mlo mtamu ambao hutausahau.",
     },
     tags: {
       en: ["Grilled Meat", "Ugali Special", "Zanzibar Mix", "Fresh Catch"],
-      sw: ["Nyama Choma", "Ugali Maalum", "Mchanganyiko wa Zanzibar", "Samaki Mpya"],
+      sw: ["Nyama Choma", "Ugali", "Mchanganyiko wa Zanzibar", "Samaki wa kupaka"],
     },
     buttons: {
       explore: {

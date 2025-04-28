@@ -10,7 +10,7 @@ const Footer = () => {
   const translations = {
     about: {
       en: "Kechita Foods - Preserving Tanzania's culinary heritage through authentic flavors and modern presentation.",
-      sw: "Kechita Foods - Tunahimili urithi wa upishi wa Tanzania kupitia ladha asili na maonyesho ya kisasa."
+      sw: "Kechita Foods - Kwa mapishi bora Tanzania, Karibu Kechita Foods."
     },
     quickLinks: {
       en: "Quick Links",
