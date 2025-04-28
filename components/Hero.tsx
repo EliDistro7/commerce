@@ -106,17 +106,13 @@ const Hero = () => {
               {translations.buttons.explore[language]}
               <span className="text-lg">→</span>
             </Link>
-            <button className="border-2 border-white/20 text-white px-6 py-3 md:px-8 md:py-4 rounded-lg md:rounded-xl 
-                             hover:border-white/40 transition-colors font-medium">
-              {translations.buttons.story[language]}
-            </button>
+         
           </motion.div>
         </div>
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-neutral-900/80 to-transparent z-20" />
-    </section>
+          </section>
   );
 };
 
