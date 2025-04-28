@@ -7,6 +7,7 @@
     "dev": "nodemon app.js",
     "build": "prisma generate",
     "start": "node app.js",
+    "safe-seed": "node utills/checkAndSeedDatabase.js",
     "seed": "node utills/insertDemoData.js",
     "reset": "node utills/resetDatabase.js",
     "test": "echo \"Error: no test specified\" && exit 1"
