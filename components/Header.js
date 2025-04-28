@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 import { useWishlistStore } from "@/app/_zustand/wishlistStore";
 import { FaHome, FaSearch, FaShoppingCart } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, User2, UserCircle2 } from "lucide-react"; // Import Lucide user icons
+import { Loader2, User, User2, UserCircle2 } from "lucide-react"; // Added Loader2 import
 
 const Header = () => {
   const { data: session, status } = useSession();
@@ -22,15 +22,29 @@ const Header = () => {
   const { wishlist, setWishlist, wishQuantity } = useWishlistStore();
   const { language, toggleLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
+  const [navigatingTo, setNavigatingTo] = useState("");
 
   const handleLogout = () => {
-    setTimeout(() => signOut(), 1000);
-    toast.success("Logout successful!");
+    setIsLoggingOut(true);
+    setTimeout(() => {
+      signOut();
+      toast.success("Logout successful!");
+      setIsLoggingOut(false);
+    }, 1000);
+  };
+
+  const handleNavigation = (path) => {
+    setIsNavigating(true);
+    setNavigatingTo(path);
+    // The actual navigation is handled by the Link component
+    // This is just to show the loading state
   };
 
   const getWishlistByUserId = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/wishlist/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/api/wishlist/${id}`, {
         cache: "no-store",
       });
 
@@ -125,6 +139,7 @@ const Header = () => {
             <Link 
               href="/" 
               className="flex items-center gap-2 md:gap-3 group transition-transform hover:scale-105 min-w-[120px]"
+              onClick={() => handleNavigation("/")}
             >
               <div className="flex flex-col">
                 <span className="font-display text-2xl md:text-3xl tracking-wide text-primary-600">
@@ -177,9 +192,18 @@ const Header = () => {
                     <div className="absolute right-0 hidden group-hover:block bg-white shadow-layer rounded-lg p-4 w-48">
                       <button
                         onClick={handleLogout}
-                        className="w-full text-left text-neutral-700 hover:text-primary-600 transition-colors"
+                        className="w-full text-left text-neutral-700 hover:text-primary-600 transition-colors flex items-center gap-2"
                       >
-                        Log Out
+                        {isLoggingOut ? (
+                          <>
+                            <Loader2 size={16} className="animate-spin" />
+                            <span>{language === 'sw' ? 'Inatoka...' : 'Logging out...'}</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>{language === 'sw' ? 'Toka' : 'Log Out'}</span>
+                          </>
+                        )}
                       </button>
                     </div>
                   </div>
@@ -187,9 +211,19 @@ const Header = () => {
                   <Link
                     href="/login"
                     className="text-primary-600 hover:text-primary-700 transition-colors flex items-center gap-2"
+                    onClick={() => handleNavigation("/login")}
                   >
-                    <User size={20} />
-                    Sign In
+                    {isNavigating && navigatingTo === "/login" ? (
+                      <>
+                        <Loader2 size={20} className="animate-spin" />
+                        <span>{language === 'sw' ? 'Inapakia...' : 'Loading...'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <User size={20} />
+                        <span>{language === 'sw' ? 'Ingia' : 'Sign In'}</span>
+                      </>
+                    )}
                   </Link>
                 )}
               </div>
@@ -218,31 +252,96 @@ const Header = () => {
                 className="md:hidden bg-white border-t border-neutral-200 p-2 mb-8"
               >
                 <nav className="flex justify-around">
-                  <Link href="/" className="flex flex-col items-center text-neutral-700 hover:text-primary-600">
-                    <FaHome size={20} />
-                    <span className="text-xs mt-1">Home</span>
+                  <Link 
+                    href="/" 
+                    className="flex flex-col items-center text-neutral-700 hover:text-primary-600"
+                    onClick={() => handleNavigation("/")}
+                  >
+                    {isNavigating && navigatingTo === "/" ? (
+                      <>
+                        <Loader2 size={20} className="animate-spin" />
+                        <span className="text-xs mt-1">{language === 'sw' ? 'Inapakia' : 'Loading'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <FaHome size={20} />
+                        <span className="text-xs mt-1">{language === 'sw' ? 'Nyumbani' : 'Home'}</span>
+                      </>
+                    )}
                   </Link>
                   <button className="flex flex-col items-center text-neutral-700 hover:text-primary-600">
                     <FaSearch size={20} />
-                    <span className="text-xs mt-1">Search</span>
+                    <span className="text-xs mt-1">{language === 'sw' ? 'Tafuta' : 'Search'}</span>
                   </button>
-                  <Link href="/wishlist" className="flex flex-col items-center text-neutral-700 hover:text-primary-600">
-                    <FaHeart size={20} />
-                    <span className="text-xs mt-1">Favs</span>
+                  <Link 
+                    href="/wishlist" 
+                    className="flex flex-col items-center text-neutral-700 hover:text-primary-600"
+                    onClick={() => handleNavigation("/wishlist")}
+                  >
+                    {isNavigating && navigatingTo === "/wishlist" ? (
+                      <>
+                        <Loader2 size={20} className="animate-spin" />
+                        <span className="text-xs mt-1">{language === 'sw' ? 'Inapakia' : 'Loading'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <FaHeart size={20} />
+                        <span className="text-xs mt-1">{language === 'sw' ? 'Pendeleo' : 'Favs'}</span>
+                      </>
+                    )}
                   </Link>
-                  <Link href="/cart" className="flex flex-col items-center text-neutral-700 hover:text-primary-600">
-                    <FaShoppingCart size={20} />
-                    <span className="text-xs mt-1">Cart</span>
+                  <Link 
+                    href="/cart" 
+                    className="flex flex-col items-center text-neutral-700 hover:text-primary-600"
+                    onClick={() => handleNavigation("/cart")}
+                  >
+                    {isNavigating && navigatingTo === "/cart" ? (
+                      <>
+                        <Loader2 size={20} className="animate-spin" />
+                        <span className="text-xs mt-1">{language === 'sw' ? 'Inapakia' : 'Loading'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <FaShoppingCart size={20} />
+                        <span className="text-xs mt-1">{language === 'sw' ? 'Kikapu' : 'Cart'}</span>
+                      </>
+                    )}
                   </Link>
                   {session?.user ? (
-                    <Link href="/profile" className="flex flex-col items-center text-neutral-700 hover:text-primary-600">
-                      <User size={20} />
-                      <span className="text-xs mt-1">Profile</span>
+                    <Link 
+                      href="/profile" 
+                      className="flex flex-col items-center text-neutral-700 hover:text-primary-600"
+                      onClick={() => handleNavigation("/profile")}
+                    >
+                      {isNavigating && navigatingTo === "/profile" ? (
+                        <>
+                          <Loader2 size={20} className="animate-spin" />
+                          <span className="text-xs mt-1">{language === 'sw' ? 'Inapakia' : 'Loading'}</span>
+                        </>
+                      ) : (
+                        <>
+                          <User size={20} />
+                          <span className="text-xs mt-1">{language === 'sw' ? 'Wasifu' : 'Profile'}</span>
+                        </>
+                      )}
                     </Link>
                   ) : (
-                    <Link href="/login" className="flex flex-col items-center text-neutral-700 hover:text-primary-600">
-                      <User size={20} />
-                      <span className="text-xs mt-1">Sign In</span>
+                    <Link 
+                      href="/login" 
+                      className="flex flex-col items-center text-neutral-700 hover:text-primary-600"
+                      onClick={() => handleNavigation("/login")}
+                    >
+                      {isNavigating && navigatingTo === "/login" ? (
+                        <>
+                          <Loader2 size={20} className="animate-spin" />
+                          <span className="text-xs mt-1">{language === 'sw' ? 'Inapakia' : 'Loading'}</span>
+                        </>
+                      ) : (
+                        <>
+                          <User size={20} />
+                          <span className="text-xs mt-1">{language === 'sw' ? 'Ingia' : 'Sign In'}</span>
+                        </>
+                      )}
                     </Link>
                   )}
                 </nav>
@@ -263,18 +362,30 @@ const Header = () => {
           <Link 
             href="/admin" 
             className="flex items-center gap-3 group"
+            onClick={() => handleNavigation("/admin")}
           >
-            <div className="flex flex-col">
-              <span className="font-display text-2xl text-primary-600">
-                KECHITA
-              </span>
-              <span className="font-display text-lg text-neutral-700 -mt-1">
-                ADMIN
-              </span>
-            </div>
-            <span className="text-primary-600 font-display text-xl border-l-2 border-neutral-200 pl-3">
-              Dashboard
-            </span>
+            {isNavigating && navigatingTo === "/admin" ? (
+              <div className="flex items-center gap-2">
+                <Loader2 size={24} className="animate-spin text-primary-600" />
+                <span className="font-display text-2xl text-primary-600">
+                  {language === 'sw' ? 'Inapakia...' : 'Loading...'}
+                </span>
+              </div>
+            ) : (
+              <>
+                <div className="flex flex-col">
+                  <span className="font-display text-2xl text-primary-600">
+                    KECHITA
+                  </span>
+                  <span className="font-display text-lg text-neutral-700 -mt-1">
+                    ADMIN
+                  </span>
+                </div>
+                <span className="text-primary-600 font-display text-xl border-l-2 border-neutral-200 pl-3">
+                  Dashboard
+                </span>
+              </>
+            )}
           </Link>
           
           <div className="flex items-center gap-6">
