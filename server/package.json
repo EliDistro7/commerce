@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "build": "prisma generate",
+    "build": "prisma generate && npx prisma migrate deploy && node utills/insertDemoData.js",
     "start": "node app.js",
     "seed": "node utills/insertDemoData.js",
     "test": "echo \"Error: no test specified\" && exit 1"
