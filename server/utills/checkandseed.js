@@ -2,6 +2,31 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+async function runSeed() {
+  try {
+    console.log('Running seed script...');
+    // Execute the seed script directly instead of trying to import a function
+    const { exec } = require('child_process');
+    
+    return new Promise((resolve, reject) => {
+      exec('node utills/insertDemoData.js', (error, stdout, stderr) => {
+        if (error) {
+          console.error('Seeding failed:', error);
+          reject(error);
+          return;
+        }
+        
+        console.log(stdout);
+        console.log('✅ Seed completed successfully');
+        resolve();
+      });
+    });
+  } catch (error) {
+    console.error('Error during seeding:', error);
+    throw error;
+  }
+}
+
 async function checkAndSeedDatabase() {
   console.log('Checking database structure before seeding...');
   
@@ -9,12 +34,16 @@ async function checkAndSeedDatabase() {
     // First, check if tables exist by attempting to count records
     // This will throw an error if tables don't exist
     const tables = [
-      'category',
-      'product',
-      'user',
-      // Add other tables from your schema here
-    ];
-    
+        'customer_order_product',
+        'category',
+        'customer_order',
+        'image',
+        'notification',
+        'product',
+        'user',
+        'wishlist'
+      ];
+      
     const missingTables = [];
     
     for (const table of tables) {
@@ -76,19 +105,6 @@ async function checkAndSeedDatabase() {
     }
   } catch (error) {
     console.error('Error checking database structure:', error);
-    throw error;
-  }
-}
-
-async function runSeed() {
-  try {
-    console.log('Running seed script...');
-    // Import and run your existing seed logic
-    const { seedData } = require('./insertDemoData');
-    await seedData();
-    console.log('✅ Seed completed successfully');
-  } catch (error) {
-    console.error('Error during seeding:', error);
     throw error;
   }
 }
