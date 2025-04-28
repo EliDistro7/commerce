@@ -35,7 +35,7 @@ const StatCard = ({ title, value, icon: Icon, direction, change, isLoading, lang
         <div>
           <p className="text-neutral-500 mb-1">{title}</p>
           <h3 className="text-2xl font-bold">
-            {title === t.totalSales ? `$${isLoading ? '—' : (displayValue).toLocaleString()}` : displayValue}
+            {title === t.totalSales ? `TZS ${isLoading ? '—' : (displayValue).toLocaleString()}` : displayValue}
           </h3>
         </div>
         <div className={`p-3 rounded-full ${displayDirection === 'up' ? 'bg-success-100' : 'bg-error-100'}`}>
