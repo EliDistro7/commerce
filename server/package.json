@@ -5,9 +5,9 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "build": "prisma generate && node utills/insertDemoData.js",
+    "build": "prisma generate",
     "start": "node app.js",
-    "seed": "node utils/insertDemoData.js",
+    "seed": "node utills/insertDemoData.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
