@@ -204,7 +204,7 @@ export default function AdminDashboard() {
                         <td className="py-3">{order.id.substring(0, 8)}...</td>
                         <td className="py-3">{order.customer}</td>
                         <td className="py-3">{order.date}</td>
-                        <td className="py-3">${order.total.toFixed(2)}</td>
+                        <td className="py-3">TZS {order.total.toFixed(2)}</td>
                         <td className="py-3">
                           <span className={`px-2 py-1 rounded-full text-xs capitalize ${
                             order.status === 'completed' ? 'bg-success-100 text-success-700' : 
