@@ -203,7 +203,9 @@ const CartPage = () => {
                       />
                     </a>
                   </dt>
-                 
+                  <dd className="text-sm font-medium text-primary-700">
+                    TZS {0}
+                  </dd>
                 </div>
               {/*  
               <div className="flex items-center justify-between border-t border-neutral-200 pt-4">
@@ -232,7 +234,7 @@ const CartPage = () => {
                     {translations.orderTotal[language]}
                   </dt>
                   <dd className="text-base font-medium text-primary-700">
-                    TZS {total === 0 ? 0 : Math.round(total + total / 5 )}
+                    TZS {total === 0 ? 0 : Math.round(total)}
                   </dd>
                 </div>
               </dl>
