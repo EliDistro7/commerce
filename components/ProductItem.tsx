@@ -29,6 +29,7 @@ const ProductItem = ({ product }: { product: Product }) => {
     // This would normally redirect the user, but we're simulating the loading state
     // The actual navigation is handled by the Link component
   };
+  
 
   return (
     <motion.div 
