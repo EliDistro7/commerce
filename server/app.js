@@ -23,7 +23,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.NODE_ENV === 'production' ? process.env.NEXT_public_server : "http://localhost:3000",
+    origin: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_SERVER : "http://localhost:3000",
     methods: ["GET", "POST"]
   }
   
