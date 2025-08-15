@@ -329,7 +329,7 @@ export default function ReportsPage() {
               <div className="flex justify-between items-start">
                 <div>
                   <p className="text-sm text-neutral-500">Total Sales</p>
-                  <h3 className="text-xl font-bold">${reportsData.stats.sales.value.toFixed(2)}</h3>
+                  <h3 className="text-xl font-bold">Tsh {reportsData.stats.sales.value.toFixed(2)}</h3>
                 </div>
                 <span className={`text-xs px-2 py-1 rounded-full ${reportsData.stats.sales.direction === 'up' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                   {reportsData.stats.sales.direction === 'up' ? '+' : '-'}{reportsData.stats.sales.change}%
