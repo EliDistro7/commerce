@@ -436,7 +436,7 @@ export default function ReportsPage() {
                       <td className="px-4 py-2 text-sm">{order.id}</td>
                       <td className="px-4 py-2 text-sm">{order.customer}</td>
                       <td className="px-4 py-2 text-sm">{order.date}</td>
-                      <td className="px-4 py-2 text-sm">${order.total.toFixed(2)}</td>
+                      <td className="px-4 py-2 text-sm">Tsh {order.total.toFixed(2)}</td>
                       <td className="px-4 py-2">
                         <span className={`px-2 py-1 text-xs rounded-full ${
                           order.status === 'delivered' ? 'bg-green-100 text-green-800' : 
