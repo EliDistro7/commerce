@@ -23,7 +23,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.NODE_ENV === 'production' ? "https://commerce-bari1.vercel.app" : "http://localhost:3000",
+    origin: process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_SERVER : "http://localhost:3000",
     methods: ["GET", "POST"]
   }
   
@@ -33,7 +33,7 @@ app.use(express.json());
 // Also match Express CORS middleware:
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? "https://commerce-bari1.vercel.app" 
+    ? process.env.ORIGIN
     : "http://localhost:3000",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
